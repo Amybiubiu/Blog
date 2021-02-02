@@ -1,8 +1,11 @@
 function curry(fn){
+  // 对于第二个函数的调用过程
+  // args = [1]
   return function carried(...args){
     if(args.length >= fn.length){
       return fn.apply(this, args);
     }else{
+      // args2 = [2,3]
       return function (...args2){
         return carried.apply(this, args.concat(args2));
       }
