@@ -1,3 +1,4 @@
+// 参考资料 还可以是 JS 忍者秘籍 下卷
 'use strict';
 
 //This file contains the ES6 extensions to the core Promises/A+ API
