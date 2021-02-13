@@ -116,7 +116,7 @@ function helloWorldGenerator() {
 
                     case 5:
                     case "end":
-                        // 8. 最后一次直接执行 stop 没有参数传入，value 为 undifiend
+                        // 8. 最后一次直接执行 stop 没有参数传入，value 为 undefined
                         return _context.stop();
                 }
             }
