@@ -22,4 +22,4 @@ function flatten(arr) {
         return prev.concat(Array.isArray(value)? flatten(value) : value);
     }, [])
 }
-console.log(flatten(arr));//  [1, 2, 3, 4，5]
+console.log(flatten(arr));//  [1, 2, 3, 4, 5]
