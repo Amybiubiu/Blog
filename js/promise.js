@@ -21,7 +21,7 @@ function getThen(value) {
 // and we should guard our code against that. 
 // For this reason, I haven't just called result.then(resolve, reject) from within resolve. 
 // Instead, I split that into a separate function:
-// 如何保障只决议一次？？
+// 如何保障只决议一次？？233 看懂英文好不
 /**
  * Take a potentially misbehaving resolver function and make sure
  * onFulfilled and onRejected are only called once.
@@ -48,7 +48,7 @@ function doResolve(fn, onFulfilled, onRejected) {
     }
 }
 
-function Promise(fn) {
+function myPromise(fn) {
   if (typeof this !== 'object')
     throw new TypeError('Promises must be constructed via new');
   if (typeof fn !== 'function')
@@ -115,7 +115,7 @@ function Promise(fn) {
 
   this.then = function (onFulfilled, onRejected) {
     var self = this;
-    return new Promise(function (resolve, reject) {
+    return new myPromise(function (resolve, reject) {
       return self.done(function (result) {
         if (typeof onFulfilled === 'function') {
           try {
@@ -142,3 +142,15 @@ function Promise(fn) {
 
   doResolve(fn, resolve, reject);
 }
+
+var promise = new myPromise((resolve, reject)=>{
+  resolve("resolve");
+})
+
+promise.then(
+  val => console.log('first:' + val)
+)
+
+promise.then(
+  val => console.log('second:' + val)
+)
