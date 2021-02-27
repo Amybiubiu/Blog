@@ -18,7 +18,7 @@ function Otaku (name, age) {
     return 'handsome boy';
 }
 
-var person = new objectFactory(Otaku, 'Kevin', '18');
+var person = objectFactory(Otaku, 'Kevin', '18');
 
 console.log(person.name) // undefined
 console.log(person.habit) // undefined
