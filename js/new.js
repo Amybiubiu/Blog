@@ -1,9 +1,9 @@
 'use strict'
 // 第二版的代码
 function objectFactory() {
-    var object = new Object(),
-    // Constructor 是本地变量
-    Constructor = [].shift.call(arguments);
+    var object = new Object();
+
+    var Constructor = [].shift.call(arguments);
 
     object._proto_ = Constructor.prototype;
     var res = Constructor.apply(object, arguments);
