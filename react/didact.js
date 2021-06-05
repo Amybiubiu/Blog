@@ -181,6 +181,7 @@ function performUnitOfWork(fiber) {
   const isFunctionComponent =
     fiber.type instanceof Function
   if (isFunctionComponent) {
+    // 打 tag
     updateFunctionComponent(fiber)
   } else {
     updateHostComponent(fiber)
@@ -188,6 +189,7 @@ function performUnitOfWork(fiber) {
   if (fiber.child) {
     return fiber.child
   }
+  // 确定下一个 work 的 fiber 树
   let nextFiber = fiber
   while (nextFiber) {
     if (nextFiber.sibling) {
@@ -206,6 +208,8 @@ function updateFunctionComponent(fiber) {
   wipFiber = fiber
   hookIndex = 0
   wipFiber.hooks = []
+  // 关于下一行的代码，在 function components 那里有解释
+  // 不过没太懂
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
 }
@@ -214,6 +218,7 @@ function useState(initial) {
   const oldHook =
     wipFiber.alternate &&
     wipFiber.alternate.hooks &&
+    // 一个 index 保证 state 与 setState 一致的原因
     wipFiber.alternate.hooks[hookIndex]
   const hook = {
     state: oldHook ? oldHook.state : initial,
@@ -221,18 +226,25 @@ function useState(initial) {
   }
 
   const actions = oldHook ? oldHook.queue : []
+  // action 来自 hook.queue
+  // action: c => c+1
   actions.forEach(action => {
+    // 此处说明了上一次 c 状态的来源
     hook.state = action(hook.state)
   })
 
   const setState = action => {
     hook.queue.push(action)
     // root 与 fiber ？？
+    console.log(currentRoot)
     wipRoot = {
+      // 根本不知道这时候 current 指向了哪
+      // 让我 console 一下
       dom: currentRoot.dom,
       props: currentRoot.props,
       alternate: currentRoot,
     }
+    // 通过这样触发下一轮的 update
     nextUnitOfWork = wipRoot
     deletions = []
   }
@@ -278,6 +290,7 @@ function reconcileChildren(wipFiber, elements) {
         props: element.props,
         dom: oldFiber.dom,
         parent: wipFiber,
+        // 更新 Fiber
         alternate: oldFiber,
         effectTag: "UPDATE",
       }
@@ -296,7 +309,8 @@ function reconcileChildren(wipFiber, elements) {
       oldFiber.effectTag = "DELETION"
       deletions.push(oldFiber)
     }
-
+    // 在这里建立 fiber 与 fiber 的关系
+    // child parent or sibling
     if (oldFiber) {
       oldFiber = oldFiber.sibling
     }
