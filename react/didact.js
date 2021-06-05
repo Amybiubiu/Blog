@@ -144,6 +144,8 @@ function render(element, container) {
     props: {
       children: [element],
     },
+    // We also add the alternate property to every fiber. This property is a link to the old fiber,
+    //  the fiber that we committed to the DOM in the previous commit phase.
     alternate: currentRoot,
   }
   deletions = []
@@ -151,7 +153,6 @@ function render(element, container) {
 }
 
 let nextUnitOfWork = null
-// let nextUnitOfWork = {}
 let currentRoot = null
 let wipRoot = null
 let deletions = null
@@ -196,7 +197,9 @@ function performUnitOfWork(fiber) {
   }
 }
 
+// We call it the work in progress root or wipRoot.
 let wipFiber = null
+// wipRoot 是 wipFiber 的 root
 let hookIndex = null
 
 function updateFunctionComponent(fiber) {
@@ -224,6 +227,7 @@ function useState(initial) {
 
   const setState = action => {
     hook.queue.push(action)
+    // root 与 fiber ？？
     wipRoot = {
       dom: currentRoot.dom,
       props: currentRoot.props,
