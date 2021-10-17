@@ -1,4 +1,3 @@
-function params(a){
-    console.log(a);
+for(let i = 0; i < 0; i++){
+    console.log(i);
 }
-params(1, 2, 3);

@@ -8,7 +8,7 @@ function objectFactory() {
     object._proto_ = Constructor.prototype;
     var res = Constructor.apply(object, arguments);
 
-    return typeof res === 'object'? res : object;
+    return typeof res === 'object'? object : res;
 };
 
 function Otaku (name, age) {
@@ -20,6 +20,7 @@ function Otaku (name, age) {
 
 var person = objectFactory(Otaku, 'Kevin', '18');
 
+console.log(person);
 console.log(person.name) // undefined
 console.log(person.habit) // undefined
 console.log(person.strength) // 60

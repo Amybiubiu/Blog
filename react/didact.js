@@ -93,6 +93,8 @@ function updateDom(dom, prevProps, nextProps) {
 function commitRoot() {
   deletions.forEach(commitWork)
   commitWork(wipRoot.child)
+  // So we need to save a reference to that “last fiber tree we committed to the DOM” 
+  // after we finish the commit. We call it currentRoot.
   currentRoot = wipRoot
   wipRoot = null
 }
@@ -139,6 +141,8 @@ function commitDeletion(fiber, domParent) {
 }
 
 function render(element, container) {
+  // Instead, we’ll keep track of the root of the fiber tree. 
+  // We call it the work in progress root or wipRoot.
   wipRoot = {
     dom: container,
     props: {
