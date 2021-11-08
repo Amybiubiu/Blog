@@ -350,14 +350,38 @@ const Didact = {
 
 /** @jsx Didact.createElement */
 // 跑一下代码看看 function com jsx 的与 createElement 的连续
-function Counter() {
-  const [state, setState] = Didact.useState(1);
-  return Didact.createElement("h1", {
-    onClick: () => setState(c => c + 1)
-  }, "Count: ", state);
+// function Counter() {
+//   const [state, setState] = Didact.useState(1);
+//   return Didact.createElement("h1", {
+//     onClick: () => setState(c => c + 1)
+//   }, "Count: ", state);
+// }
+
+const Child = ({
+  count
+}) => {
+  (function test() {
+    console.log(1);
+  })();
+  // 找调用栈 看 Child 是如何被调用的
+  // const children = [fiber.type(fiber.props)]
+  const [num, setNum] = Didact.useState(count);
+  console.log(2);
+  return Didact.createElement("div", {
+    onClick: () => setNum(num => num + 1)
+  }, 'child  ' + count + num);
+};
+
+function App() {
+  const [count, setCount] = Didact.useState(2);
+  return Didact.createElement("div", null, Didact.createElement("div", {
+    onClick: () => setCount(count => count + 1)
+  }, "\"click\""), Didact.createElement(Child, {
+    count: count
+  }));
 }
 
-const element = Didact.createElement(Counter, null);
+const element = Didact.createElement(App, null);
 
 
 const container = document.getElementById("root")

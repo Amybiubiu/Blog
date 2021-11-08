@@ -1,5 +1,7 @@
 Function.prototype.apply2 = function (context, arr){
     var context = Object(context);
+    // 把 fn 变为对象的方法
+    // fn 的 this 指向调用对象
     context.fn = this;
     var res;
     if(!arr){
